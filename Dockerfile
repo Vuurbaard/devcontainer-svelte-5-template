@@ -20,6 +20,6 @@ COPY --from=build /app/node_modules node_modules/
 COPY package.json .
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-	CMD curl -f http://localhost:3000/api/healthcheck || exit 1
+	CMD curl -f http://localhost:3005/api/healthcheck || exit 1
 
 CMD node build/index.js
