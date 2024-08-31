@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  devcontainer-svelte-5-template:
+    container_name: dev-devcontainer-svelte-5-template
+    build: .
+    working_dir: /workspaces
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/workspaces:cached
+      - dev-devcontainer-svelte-5-template:/workspaces
+
+volumes:
+  dev-devcontainer-svelte-5-template:
