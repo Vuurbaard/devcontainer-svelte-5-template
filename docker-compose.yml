@@ -7,9 +7,9 @@ services:
       - NODE_ENV=production
     ports:
       - 3005:3005
-    volumes:
-      - devcontainer-svelte-5-template:/home/node/app
+    # volumes:
+    #   - devcontainer-svelte-5-template:/home/node/app
     restart: unless-stopped
 
-volumes:
-  devcontainer-svelte-5-template:
+# volumes:
+#   devcontainer-svelte-5-template:
