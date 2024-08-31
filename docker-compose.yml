@@ -1,0 +1,15 @@
+version: "3"
+services:
+  devcontainer-svelte-5-template:
+    container_name: devcontainer-svelte-5-template
+    build: .
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 3000:3000
+    volumes:
+      - devcontainer-svelte-5-template:/home/node/app
+    restart: unless-stopped
+
+volumes:
+  devcontainer-svelte-5-template:
