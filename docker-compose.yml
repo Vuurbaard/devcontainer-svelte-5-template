@@ -5,6 +5,7 @@ services:
     build: .
     environment:
       - NODE_ENV=production
+      - "PORT=3005"
     ports:
       - 3005:3005
     # volumes:
