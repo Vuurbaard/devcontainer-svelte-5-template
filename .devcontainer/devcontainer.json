@@ -37,7 +37,8 @@
 				"mhutchie.git-graph",
 				"GitHub.copilot-labs",
 				"csstools.postcss",
-				"bradlc.vscode-tailwindcss"
+				"bradlc.vscode-tailwindcss",
+				"Selemondev.vscode-shadcn-svelte"
 			]
 		}
 	}
