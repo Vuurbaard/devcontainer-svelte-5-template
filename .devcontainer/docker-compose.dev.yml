@@ -7,7 +7,7 @@ services:
     command: /bin/sh -c "while sleep 1000; do :; done"
     environment:
       - NODE_ENV=development
-      # - DATABASE_URL=mongodb://root:devcontainer-mongodb@mongodb:27017/devcontainer-svelte-5-template
+      # - DATABASE_URL=mongodb://dev:devcontainer@mongodb:27017/devcontainer-svelte-5-template
       # - GITHUB_CLIENT_ID=
       # - GITHUB_CLIENT_SECRET=
       # - GOOGLE_CLIENT_ID=
