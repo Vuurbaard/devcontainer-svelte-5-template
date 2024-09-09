@@ -15,9 +15,12 @@
 		</div>
 		<Button type="submit">Login</Button>
 	</form>
-
-	<span> --- or ---</span>
+	<br />
+	<span>--- or ---</span>
+	<br />
 	<a href="/login/github">Sign in with GitHub</a>
+	<br />
+	<a href="/login/google">Sign in with Google</a>
 </div>
 
 <style lang="scss">
