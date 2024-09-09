@@ -7,7 +7,7 @@ services:
     command: /bin/sh -c "while sleep 1000; do :; done"
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=mongodb://root:devcontainer-mongodb@mongodb:27017/devcontainer-svelte-5-template
+      # - DATABASE_URL=mongodb://root:devcontainer-mongodb@mongodb:27017/devcontainer-svelte-5-template
       # - GITHUB_CLIENT_ID=
       # - GITHUB_CLIENT_SECRET=
       # - GOOGLE_CLIENT_ID=
@@ -22,8 +22,8 @@ services:
     container_name: devcontainer-mongodb
     image: mongo:6.0
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: devcontainer-mongodb
+      MONGO_INITDB_ROOT_USERNAME: dev
+      MONGO_INITDB_ROOT_PASSWORD: devcontainer
     ports:
       - "27017:27017"
     volumes:
