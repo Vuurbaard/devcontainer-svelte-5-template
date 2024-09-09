@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
 	import Header from './Header.svelte';
 	import '../app.css';
+
+	export let data: PageData;
 </script>
 
 <div class="app">
-	<Header></Header>
+	<Header user={data?.user}></Header>
 
 	<main>
 		<slot></slot>
