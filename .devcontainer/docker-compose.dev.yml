@@ -10,6 +10,20 @@ services:
     volumes:
       - .:/workspaces:cached
       - dev-devcontainer-svelte-5-template:/workspaces
+    depends_on:
+      - mongodb
+
+  mongodb:
+    container_name: dev-mongodb-devcontainer-svelte-5-template
+    image: mongo:6.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: devcontainer-svelte-5-template
+    ports:
+      - "27017:27017"
+    volumes:
+      - dev-mongodb-devcontainer-svelte-5-template-data:/data/db
 
 volumes:
   dev-devcontainer-svelte-5-template:
+  dev-mongodb-devcontainer-svelte-5-template-data:
