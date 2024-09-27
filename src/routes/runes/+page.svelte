@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Button } from '$lib/components/ui/button';
+
 	let numbers = $state([1, 2, 3]);
 
 	let sum = $derived(numbers.reduce((a: number, b: number) => a + b, 0));
@@ -21,21 +23,35 @@
 	});
 </script>
 
-<button onclick={() => numbers.push(numbers.length + 1)}> push </button>
-
-<button onclick={() => numbers.pop()}> pop </button>
-
 <svelte:head>
 	<title>Runes</title>
 	<meta name="description" content="Runes" />
 </svelte:head>
 
-<p>
-	{numbers.join(' + ') || 0}
-	=
-	{sum}
-</p>
+<div class="flex flex-col items-center">
+	<div class="flex flex-col items-center">
+		<p>
+			{numbers.join(' + ') || 0}
+			=
+			{sum}
+		</p>
+		<div>
+			<Button onclick={() => numbers.push(numbers.length + 1)}>push</Button>
+			<Button onclick={() => numbers.pop()}>pop</Button>
+		</div>
+	</div>
+	<br />
+	<br />
+	<div class="count">
+		<p>Count: {count}</p>
+	</div>
 
-<p>Count: {count}</p>
+	<div class="interval">
+		<span>interval:&nbsp;</span>
+		<input type="number" bind:value={milliseconds} step="500" />
+		<span>ms</span>
+	</div>
+</div>
 
-<input type="number" bind:value={milliseconds} step="500" />
+<style lang="scss">
+</style>
