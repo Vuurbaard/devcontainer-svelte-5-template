@@ -26,6 +26,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 	try {
 		const tokens = await github.validateAuthorizationCode(code);
+
 		const githubUserResponse = await fetch('https://api.github.com/user', {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
@@ -34,6 +35,20 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		const githubUser: GitHubUser = await githubUserResponse.json();
 
 		console.log(githubUser);
+
+		const emailsResponse = await fetch('https://api.github.com/user/emails', {
+			headers: {
+				Authorization: `Bearer ${tokens.accessToken}`
+			}
+		});
+		const emails = await emailsResponse.json();
+		console.log(emails);
+
+		// Find primary email (if exists)
+		const primaryEmail = emails.find((email: { email: string; primary: boolean }) => email.primary)?.email;
+		console.log(primaryEmail); // Now you can use this email for account linking
+
+		githubUser.email = primaryEmail ?? githubUser.email;
 
 		const existingGitHubUser = await prisma.user.findUnique({
 			where: {
