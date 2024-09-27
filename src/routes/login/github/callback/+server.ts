@@ -1,15 +1,23 @@
-import { github, lucia } from "$lib/server/auth";
-import { OAuth2RequestError } from "arctic";
-import { generateId } from "lucia";
-import { db } from "$lib/server/db";
+import { OAuth2RequestError } from 'arctic';
+import { github, lucia } from '$lib/server/auth'; // Assuming you have a GitHub auth module
+import type { RequestEvent } from '@sveltejs/kit';
 
-import type { RequestEvent } from "@sveltejs/kit";
-import type { DatabaseUser } from "$lib/server/db";
+interface GitHubUser {
+	id: string;  // Unique identifier for the user
+	login: string;  // GitHub username
+	email: string;  // Email address of the user
+	name: string;  // Full name of the user (optional)
+}
 
 export async function GET(event: RequestEvent): Promise<Response> {
-	const code = event.url.searchParams.get("code");
-	const state = event.url.searchParams.get("state");
-	const storedState = event.cookies.get("github_oauth_state") ?? null;
+	const code = event.url.searchParams.get('code');
+	const state = event.url.searchParams.get('state');
+	const storedState = event.cookies.get('github_oauth_state') ?? null;
+
+	console.log("code:", code);
+	console.log("state:", state);
+	console.log("storedState:", storedState);
+
 	if (!code || !state || !storedState || state !== storedState) {
 		return new Response(null, {
 			status: 400
@@ -18,46 +26,60 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 	try {
 		const tokens = await github.validateAuthorizationCode(code);
-		const githubUserResponse = await fetch("https://api.github.com/user", {
+		const githubUserResponse = await fetch('https://api.github.com/user', {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
 			}
 		});
 		const githubUser: GitHubUser = await githubUserResponse.json();
-		const existingUser = db.prepare("SELECT * FROM user WHERE github_id = ?").get(githubUser.id) as
-			| DatabaseUser
-			| undefined;
 
-		if (existingUser) {
-			const session = await lucia.createSession(existingUser.id, {});
+		console.log(githubUser);
+
+		const existingGitHubUser = await prisma.user.findUnique({
+			where: {
+				githubId: githubUser.id.toString()
+			}
+		});
+
+		console.log("existingGitHubUser:", existingGitHubUser);
+
+		if (existingGitHubUser) {
+			const session = await lucia.createSession(existingGitHubUser.id, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
 			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: ".",
-				...sessionCookie.attributes
-			});
-		} else {
-			const userId = generateId(15);
-			db.prepare("INSERT INTO user (id, github_id, username) VALUES (?, ?, ?)").run(
-				userId,
-				githubUser.id,
-				githubUser.login
-			);
-			const session = await lucia.createSession(userId, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: ".",
+				path: '.',
 				...sessionCookie.attributes
 			});
 		}
+		else {
+			const newUser = await prisma.user.create({
+				data: {
+					name: githubUser.name || githubUser.login, // Use login if name is missing
+					email: githubUser.email ?? '', // GitHub might not always provide email
+					githubId: githubUser.id.toString(),
+					googleId: '' // Optional: leave empty if no GoogleId
+				}
+			});
+
+			const session = await lucia.createSession(newUser.id, {});
+			const sessionCookie = lucia.createSessionCookie(session.id);
+			event.cookies.set(sessionCookie.name, sessionCookie.value, {
+				path: '.',
+				...sessionCookie.attributes
+			});
+		}
+
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: "/"
+				Location: '/'
 			}
 		});
-	} catch (e) {
-		if (e instanceof OAuth2RequestError && e.message === "bad_verification_code") {
-			// invalid code
+	}
+	catch (e) {
+		console.error(e);
+
+		if (e instanceof OAuth2RequestError) {
 			return new Response(null, {
 				status: 400
 			});
@@ -66,9 +88,4 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			status: 500
 		});
 	}
-}
-
-interface GitHubUser {
-	id: string;
-	login: string;
 }

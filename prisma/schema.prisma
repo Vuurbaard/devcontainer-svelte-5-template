@@ -14,16 +14,16 @@ datasource db {
 }
 
 model User {
-  id       String    @id @map("_id")
-	googleId String    @unique
-	name     String
-	email    String    @unique
-	githubId String    @unique
+  id       String    @id @default(uuid())  // Generates a UUID by default
+  name     String
+  googleId String    @unique
+  email    String    @unique
+  githubId String    @unique
   sessions Session[]
 }
 
 model Session {
-  id        String   @id @map("_id")
+  id        String   @id @default(uuid())  // Generates a UUID by default
   userId    String
   expiresAt DateTime
 

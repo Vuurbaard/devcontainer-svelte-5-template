@@ -53,11 +53,10 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		else {
 			const newUser = await prisma.user.create({
 				data: {
-					id: '', // Add a value for the id property
-					githubId: '', // Add a value for the githubId property
+					name: googleUser.name, // Name field may not always be present, handle accordingly
 					email: googleUser.email, // Using email as username
 					googleId: googleUser.sub,
-					name: googleUser.name // Name field may not always be present, handle accordingly
+					githubId: '' // Add a value for the githubId property
 				}
 			});
 
