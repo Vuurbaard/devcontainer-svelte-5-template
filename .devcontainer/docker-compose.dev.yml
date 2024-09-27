@@ -7,7 +7,7 @@ services:
     command: /bin/sh -c "while sleep 1000; do :; done"
     environment:
       - NODE_ENV=development
-      # - DATABASE_URL=mongodb://dev:devcontainer@mongodb:27017/devcontainer-svelte-5-template
+      - DATABASE_URL=postgresql://dev:devcontainer@postgres:5432/devcontainer_svelte_5_template
       # - GITHUB_CLIENT_ID=
       # - GITHUB_CLIENT_SECRET=
       # - GOOGLE_CLIENT_ID=
@@ -16,19 +16,18 @@ services:
       - .:/workspaces:cached
       - dev-devcontainer-svelte-5-template:/workspaces
     depends_on:
-      - mongodb
+      - postgres
 
-  mongodb:
-    container_name: devcontainer-mongodb
-    image: mongo:6.0
+  postgres:
+    image: postgres:15
+    container_name: postgres
     environment:
-      MONGO_INITDB_ROOT_USERNAME: dev
-      MONGO_INITDB_ROOT_PASSWORD: devcontainer
-    ports:
-      - "27017:27017"
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: devcontainer
+      POSTGRES_DB: devcontainer_svelte_5_template
     volumes:
-      - devcontainer-mongodb-data:/data/db
+      - postgres-data:/var/lib/postgresql/data
 
 volumes:
   dev-devcontainer-svelte-5-template:
-  devcontainer-mongodb-data:
+  postgres-data:
