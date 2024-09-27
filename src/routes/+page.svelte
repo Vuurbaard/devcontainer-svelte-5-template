@@ -13,8 +13,9 @@
 </svelte:head>
 
 <section>
+	<!-- {JSON.stringify(data.user)} -->
 	<h1>
-		{data.user?.username}
+		{data.user?.name}
 
 		<span class="welcome">
 			<picture>

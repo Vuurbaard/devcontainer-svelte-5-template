@@ -27,11 +27,12 @@ export const lucia = new Lucia(adapter, {
 			secure: !dev
 		}
 	},
-	getUserAttributes: (attributes) => {
+	getUserAttributes: (attributes: any) => {
 		return {
 			username: attributes.username,
 			googleId: attributes.googleId,
-			githubId: attributes.github_id
+			githubId: attributes.github_id,
+			name: attributes.name
 		};
 	}
 });
