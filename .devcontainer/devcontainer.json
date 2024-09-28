@@ -38,7 +38,8 @@
 				"csstools.postcss",
 				"bradlc.vscode-tailwindcss",
 				"Selemondev.vscode-shadcn-svelte",
-				"Prisma.prisma"
+				"Prisma.prisma",
+				"cweijan.vscode-postgresql-client2"
 			]
 		}
 	}
