@@ -7,7 +7,7 @@
 	],
 	"workspaceFolder": "/workspaces",
 	"remoteUser": "node",
-	"postCreateCommand": "npm install",
+	"postCreateCommand": "npm install && npx prisma db push",
 	"shutdownAction": "stopCompose",
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
