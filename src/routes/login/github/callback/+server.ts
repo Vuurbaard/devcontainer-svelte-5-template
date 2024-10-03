@@ -44,10 +44,8 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		const emails = await emailsResponse.json();
 		console.log(emails);
 
-		// Find primary email (if exists)
 		const primaryEmail = emails.find((email: { email: string; primary: boolean }) => email.primary)?.email;
-		console.log(primaryEmail); // Now you can use this email for account linking
-
+		console.log(primaryEmail);
 		githubUser.email = primaryEmail ?? githubUser.email;
 
 		const existingGitHubUser = await prisma.user.findUnique({
