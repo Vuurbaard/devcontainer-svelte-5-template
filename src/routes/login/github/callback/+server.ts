@@ -42,35 +42,45 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			}
 		});
 		const emails = await emailsResponse.json();
-		console.log(emails);
 
 		const primaryEmail = emails.find((email: { email: string; primary: boolean }) => email.primary)?.email;
-		console.log(primaryEmail);
 		githubUser.email = primaryEmail ?? githubUser.email;
 
-		const existingGitHubUser = await prisma.user.findUnique({
+		// Check if the user exists by email
+		const existingUser = await prisma.user.findUnique({
 			where: {
-				githubId: githubUser.id.toString()
+				email: githubUser.email
 			}
 		});
 
-		console.log("existingGitHubUser:", existingGitHubUser);
+		if (existingUser) {
+			// If user exists but does not have a GitHub ID, update their record
+			if (!existingUser.githubId) {
+				await prisma.user.update({
+					where: {
+						email: githubUser.email
+					},
+					data: {
+						githubId: githubUser.id.toString()
+					}
+				});
+			}
 
-		if (existingGitHubUser) {
-			const session = await lucia.createSession(existingGitHubUser.id, {});
+			const session = await lucia.createSession(existingUser.id, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
 			event.cookies.set(sessionCookie.name, sessionCookie.value, {
 				path: '.',
 				...sessionCookie.attributes
 			});
-		}
-		else {
+		} else {
+			// Create a new user if not found
 			const newUser = await prisma.user.create({
 				data: {
-					name: githubUser.name || githubUser.login, // Use login if name is missing
-					email: githubUser.email ?? '', // GitHub might not always provide email
+					name: githubUser.name || githubUser.login,
+					email: githubUser.email ?? '',
 					githubId: githubUser.id.toString(),
-					googleId: '' // Optional: leave empty if no GoogleId
+					googleId: '',  // For future Google OAuth
+					discordId: ''  // For future Discord OAuth
 				}
 			});
 
@@ -102,3 +112,4 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		});
 	}
 }
+

@@ -3,7 +3,6 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Icons } from '$lib/components/icons';
-	// import { Github, Google } from 'lucide-svelte';
 </script>
 
 <div class="login flex flex-col items-center">
@@ -31,6 +30,10 @@
 		<Button href="/login/google" variant="outline">
 			<Icons.google class="mr-2 h-4 w-4" />
 			Sign in with Google
+		</Button>
+		<Button href="/login/discord" variant="outline">
+			<Icons.discord class="mr-2 h-4 w-4" />
+			Sign in with Discord
 		</Button>
 		<p class="px-8 py-4 text-center text-sm text-muted-foreground">
 			By clicking continue, you agree to our
