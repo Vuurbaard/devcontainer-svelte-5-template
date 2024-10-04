@@ -31,6 +31,9 @@
 				<a href="/sverdle">Sverdle</a>
 			</li>
 			{#if !user}
+				<li aria-current={$page.url.pathname === '/signup' ? 'page' : undefined}>
+					<a href="/signup">Sign-up</a>
+				</li>
 				<li aria-current={$page.url.pathname === '/login' ? 'page' : undefined}>
 					<a href="/login">Login</a>
 				</li>

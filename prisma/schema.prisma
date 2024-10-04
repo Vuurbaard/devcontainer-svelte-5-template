@@ -14,7 +14,9 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(uuid())  // Generates a UUID by default
+  id       String    @id @default(uuid())
+	username String?    @unique
+	passwordHash String?
   name     String
   email    String    @unique
   googleId String?    @unique
@@ -24,7 +26,7 @@ model User {
 }
 
 model Session {
-  id        String   @id @default(uuid())  // Generates a UUID by default
+  id        String   @id @default(uuid())
   userId    String
   expiresAt DateTime
 

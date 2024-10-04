@@ -62,11 +62,9 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			// Create a new user if not found
 			const newUser = await prisma.user.create({
 				data: {
-					name: googleUser.name, // Handle case if name is missing
-					email: googleUser.email, // Use email as the main identifier
+					name: googleUser.name,
+					email: googleUser.email,
 					googleId: googleUser.sub,
-					githubId: '',  // For future GitHub OAuth
-					discordId: ''  // For future Discord OAuth
 				}
 			});
 
