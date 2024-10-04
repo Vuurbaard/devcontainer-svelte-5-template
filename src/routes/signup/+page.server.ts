@@ -117,8 +117,6 @@ export const actions: Actions = {
 				name: name,
 				email: email,
 				passwordHash: passwordHash,
-				googleId: "",  // Placeholder for future Google OAuth
-				discordId: ""  // Placeholder for future Discord OAuth
 			}
 		});
 		console.log("New user created:", newUser);

@@ -1,20 +1,28 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Icons } from '$lib/components/icons';
+
+	let username = 'Vuurbaard';
+	let password = '123456';
 </script>
 
 <div class="login flex flex-col items-center">
-	<form class="flex flex-col pt-10">
+	<form class="flex flex-col pt-10" method="post" use:enhance>
 		<h1>Sign in</h1>
-		<Input placeholder="Username">Username</Input>
-		<Input placeholder="Password">Password</Input>
-		<div class="remember align-center flex items-center">
+		<Input placeholder="Username" name="username" bind:value={username}>Username</Input>
+		<Input placeholder="Password" name="password" bind:value={password}>Password</Input>
+		<!-- <div class="remember align-center flex items-center">
 			<Checkbox />
 			<span class="px-2 text-sm">Remember me</span>
-		</div>
+		</div> -->
 		<Button type="submit">Login</Button>
+		<p class="px-8 py-4 text-center text-sm text-muted-foreground">
+			Don't have an account?
+			<a href="/signup" class="underline underline-offset-4 hover:text-primary">Sign up</a>
+		</p>
 		<div class="relative my-8 w-full">
 			<div class="absolute inset-0 flex items-center">
 				<span class="w-full border-t border-gray-300"></span>
@@ -32,7 +40,7 @@
 			Sign in with Google
 		</Button>
 		<Button href="/login/discord" variant="outline">
-			<Icons.discord class="mr-2 h-4 w-4" />
+			<Icons.discord class="mr-2 h-5 w-5" />
 			Sign in with Discord
 		</Button>
 		<p class="px-8 py-4 text-center text-sm text-muted-foreground">

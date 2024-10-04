@@ -24,16 +24,16 @@
 			<li aria-current={$page.url.pathname === '/runes' ? 'page' : undefined}>
 				<a href="/runes">Runes (protected)</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
+			<!-- <li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href="/about">About</a>
-			</li>
+			</li> -->
 			<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
 				<a href="/sverdle">Sverdle</a>
 			</li>
 			{#if !user}
-				<li aria-current={$page.url.pathname === '/signup' ? 'page' : undefined}>
+				<!-- <li aria-current={$page.url.pathname === '/signup' ? 'page' : undefined}>
 					<a href="/signup">Sign-up</a>
-				</li>
+				</li> -->
 				<li aria-current={$page.url.pathname === '/login' ? 'page' : undefined}>
 					<a href="/login">Login</a>
 				</li>
