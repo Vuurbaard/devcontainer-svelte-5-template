@@ -8,15 +8,19 @@ services:
     environment:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://dev:devcontainer@postgres:5432/devcontainer_svelte_5_template
+      - REDIS_URL=redis://redis:6379
       # - GITHUB_CLIENT_ID=
       # - GITHUB_CLIENT_SECRET=
       # - GOOGLE_CLIENT_ID=
       # - GOOGLE_CLIENT_SECRET=
+      # - DISCORD_CLIENT_ID=
+      # - DISCORD_CLIENT_SECRET=
     volumes:
       - .:/workspaces:cached
       - dev-devcontainer-svelte-5-template:/workspaces
     depends_on:
       - postgres
+      - redis
 
   postgres:
     image: postgres:15
@@ -28,6 +32,15 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
 volumes:
   dev-devcontainer-svelte-5-template:
   postgres-data:
+  redis-data:
