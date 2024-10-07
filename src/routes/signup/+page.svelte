@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { Button } from '$lib/components/ui/button';
+	import * as Alert from '$lib/components/ui/alert';
+	import { Icons } from '$lib/components/icons';
 	import type { ActionData } from './$types';
 
 	let email = 'sanderbrokelman@msn.com';
@@ -11,8 +13,16 @@
 	export let form: ActionData;
 </script>
 
-<h1>Sign up</h1>
 <form method="post" use:enhance>
+	<h1>Sign up</h1>
+	{#if form?.message}
+		<Alert.Root variant="destructive">
+			<Icons.cicleAlert class="h-4 w-4" />
+			<Alert.Title>Error</Alert.Title>
+			<Alert.Description>{form.message}.</Alert.Description>
+		</Alert.Root>
+	{/if}
+
 	<label for="email">E-mail</label>
 	<input name="email" id="email" bind:value={email} /><br />
 	{#if form?.errors?.email}
