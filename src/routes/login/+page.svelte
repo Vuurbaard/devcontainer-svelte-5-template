@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
@@ -9,12 +10,25 @@
 	let username = 'Vuurbaard';
 	let password = '';
 
+	$: emailVerified = $page.url.searchParams.get('emailVerified');
+
 	export let form: ActionData;
 </script>
 
 <div class="login flex flex-col items-center">
 	<form class="flex flex-col pt-10" method="post" use:enhance>
 		<h1>Sign in</h1>
+
+		{#if emailVerified}
+			<Alert.Root>
+				<Icons.cicleAlert class="h-4 w-4" />
+				<Alert.Title></Alert.Title>
+				<Alert.Description
+					>Thank you! Your e-mail has been verified. You can now log in.</Alert.Description
+				>
+			</Alert.Root>
+		{/if}
+
 		{#if form?.message}
 			<Alert.Root variant="destructive">
 				<Icons.cicleAlert class="h-4 w-4" />

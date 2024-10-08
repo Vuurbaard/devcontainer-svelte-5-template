@@ -2,6 +2,8 @@ import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import { hash } from "@node-rs/argon2";
 import { z } from 'zod';
+import { TimeSpan, createDate } from "oslo";
+import { generateRandomString, alphabet } from "oslo/crypto";
 
 import type { Actions } from "./$types";
 
@@ -121,22 +123,58 @@ export const actions: Actions = {
 				username: validatedUsername,
 				name: validatedName,
 				email: validatedEmail,
+				emailVerified: false,
 				passwordHash: passwordHash,
 			}
 		});
 		console.log("New user created:", newUser);
 
-		// Create session for the new user
-		const session = await lucia.createSession(newUser.id, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
+		const verificationCode = await generateEmailVerificationCode(newUser.id, newUser.email);
+		await sendVerificationCodeEmail(validatedEmail, verificationCode);
 
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: ".",
-			...sessionCookie.attributes
-		});
-		console.log("Session created and cookie set for new user");
+		throw redirect(302, "/signup/email-verification");
+
+		// Create session for the new user
+		// const session = await lucia.createSession(newUser.id, {});
+		// const sessionCookie = lucia.createSessionCookie(session.id);
+
+		// event.cookies.set(sessionCookie.name, sessionCookie.value, {
+		// 	path: ".",
+		// 	...sessionCookie.attributes
+		// });
+		// console.log("Session created and cookie set for new user");
 
 		// Redirect to the homepage after successful signup
-		throw redirect(302, "/");
+		// throw redirect(302, "/");
 	}
 };
+
+
+async function generateEmailVerificationCode(userId: string, email: string): Promise<string> {
+	// Delete any existing email verification code for the user
+	await prisma.emailVerificationCode.deleteMany({
+		where: {
+			userId: userId
+		}
+	});
+
+	// Generate a random verification code
+	const code = generateRandomString(8, alphabet("0-9"));
+
+	// Insert the new verification code with a 15-minute expiration time
+	await prisma.emailVerificationCode.create({
+		data: {
+			userId: userId,
+			email: email,
+			code: code,
+			expiresAt: createDate(new TimeSpan(1, "h"))
+		}
+	});
+
+	return code;
+}
+
+async function sendVerificationCodeEmail(email: string, code: string) {
+	// Send the verification email
+	console.log("Sending verification email to:", email, "with code:", code);
+}

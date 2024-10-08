@@ -4,6 +4,8 @@ import { verify } from "@node-rs/argon2";
 import { z } from 'zod';
 
 import type { Actions } from "./$types";
+import { alphabet, generateRandomString } from "oslo/crypto";
+import { createDate, TimeSpan } from "oslo";
 
 // Define a schema for login validation
 const loginSchema = z.object({
@@ -70,6 +72,16 @@ export const actions: Actions = {
 			return fail(400, { message: "Incorrect username or password" });
 		}
 
+		// If the user's email is not verified, redirect to email verification page
+		if (!existingUser.emailVerified) {
+			console.log("User email not verified:", validatedUsername);
+
+			const newCode = await generateEmailVerificationCode(existingUser.id, existingUser.email);
+			await sendVerificationCodeEmail(existingUser.email, newCode);
+
+			redirect(302, "/signup/email-verification?email=" + encodeURIComponent(existingUser.email));
+		}
+
 		// Create session for the authenticated user
 		const session = await lucia.createSession(existingUser.id, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
@@ -84,3 +96,33 @@ export const actions: Actions = {
 		throw redirect(302, "/");
 	}
 };
+
+
+async function generateEmailVerificationCode(userId: string, email: string): Promise<string> {
+	// Delete any existing email verification code for the user
+	await prisma.emailVerificationCode.deleteMany({
+		where: {
+			userId: userId
+		}
+	});
+
+	// Generate a random verification code
+	const code = generateRandomString(8, alphabet("0-9"));
+
+	// Insert the new verification code with a 15-minute expiration time
+	await prisma.emailVerificationCode.create({
+		data: {
+			userId: userId,
+			email: email,
+			code: code,
+			expiresAt: createDate(new TimeSpan(1, "h"))
+		}
+	});
+
+	return code;
+}
+
+async function sendVerificationCodeEmail(email: string, code: string) {
+	// Send the verification email
+	console.log("Sending verification email to:", email, "with code:", code);
+}

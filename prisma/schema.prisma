@@ -14,15 +14,17 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(uuid())
-	username String?    @unique
-	passwordHash String?
-  name     String
-  email    String    @unique
-  googleId String?    @unique
-  githubId String?    @unique
-  discordId String?    @unique
-  sessions Session[]
+  id       			String		@id @default(uuid())
+	username 			String?		@unique
+	passwordHash 	String?
+  name     			String
+  email    			String		@unique
+	emailVerified Boolean		@default(false)
+  googleId 			String?		@unique
+  githubId 			String?		@unique
+  discordId 		String?		@unique
+  sessions 			Session[]
+	emailVerificationCodes EmailVerificationCode[]
 }
 
 model Session {
@@ -31,4 +33,14 @@ model Session {
   expiresAt DateTime
 
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model EmailVerificationCode {
+  id        String    @id @default(uuid()) 
+  code      String
+  userId    String    @unique
+  email     String
+  expiresAt DateTime
+
+  user      User      @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
