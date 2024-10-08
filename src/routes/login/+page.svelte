@@ -21,10 +21,8 @@
 
 		{#if emailVerified}
 			<Alert.Root>
-				<Icons.cicleAlert class="h-4 w-4" />
-				<Alert.Title></Alert.Title>
-				<Alert.Description
-					>Thank you! Your e-mail has been verified. You can now log in.</Alert.Description
+				<Alert.Description class="text-center"
+					>E-mail verified. You can now log in.</Alert.Description
 				>
 			</Alert.Root>
 		{/if}
