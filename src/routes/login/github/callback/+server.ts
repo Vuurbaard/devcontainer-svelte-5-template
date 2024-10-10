@@ -1,5 +1,5 @@
 import { OAuth2RequestError } from 'arctic';
-import { github } from '$lib/server/auth';
+import { github } from '$lib/server/oauth';
 import type { RequestEvent } from '@sveltejs/kit';
 import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/sessions';
 

@@ -1,4 +1,4 @@
-import { lucia } from "$lib/server/auth";
+import { lucia } from "$lib/server/oauth";
 import { fail, redirect } from "@sveltejs/kit";
 import { isWithinExpirationDate } from "oslo";
 import { z } from 'zod';

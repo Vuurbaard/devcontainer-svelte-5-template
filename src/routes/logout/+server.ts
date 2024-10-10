@@ -1,5 +1,5 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { lucia } from "$lib/server/auth";
+import { lucia } from "$lib/server/oauth";
 import type { RequestEvent } from "@sveltejs/kit";
 
 export async function GET(event: RequestEvent): Promise<Response> {

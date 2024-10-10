@@ -1,5 +1,5 @@
 import { OAuth2RequestError } from 'arctic';
-import { google } from '$lib/server/auth';
+import { google } from '$lib/server/oauth';
 import type { RequestEvent } from '@sveltejs/kit';
 import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/sessions';
 

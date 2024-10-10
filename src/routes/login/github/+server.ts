@@ -1,6 +1,7 @@
-import { github } from "$lib/server/auth";
+import { github } from "$lib/server/oauth";
 import { generateState } from "arctic";
 import { redirect } from "@sveltejs/kit";
+import { dev } from "$app/environment";
 
 import type { RequestEvent } from "@sveltejs/kit";
 
@@ -12,7 +13,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 	event.cookies.set("github_oauth_state", state, {
 		path: "/",
-		secure: import.meta.env.PROD,
+		secure: !dev,
 		httpOnly: true,
 		maxAge: 60 * 10,
 		sameSite: "lax"

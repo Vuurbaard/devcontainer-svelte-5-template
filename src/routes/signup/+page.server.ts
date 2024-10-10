@@ -1,4 +1,4 @@
-import { lucia } from "$lib/server/auth";
+import { lucia } from "$lib/server/oauth";
 import { fail, redirect } from "@sveltejs/kit";
 import { hash } from "@node-rs/argon2";
 import { z } from 'zod';
