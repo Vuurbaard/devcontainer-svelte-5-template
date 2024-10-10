@@ -90,6 +90,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				data: {
 					name: `${discordUser.username}`, // Use Discord username as the display name
 					email: discordUser.email,
+					emailVerified: true,
 					discordId: discordUser.id,
 				}
 			});

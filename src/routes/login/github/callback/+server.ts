@@ -77,14 +77,13 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				data: {
 					name: githubUser.name || githubUser.login,
 					email: githubUser.email ?? '',
+					emailVerified: true,
 					githubId: githubUser.id.toString(),
-					googleId: '',  // For future Google OAuth
-					discordId: ''  // For future Discord OAuth
 				}
 			});
 
 			const token = generateSessionToken();
-			const session = await createSession(token, existingUser.id);
+			const session = await createSession(token, newUser.id);
 			setSessionTokenCookie(event, token, session.expiresAt);
 		}
 

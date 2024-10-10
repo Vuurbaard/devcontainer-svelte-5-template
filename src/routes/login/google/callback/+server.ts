@@ -64,6 +64,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 					name: googleUser.name,
 					email: googleUser.email,
 					googleId: googleUser.sub,
+					emailVerified: true
 				}
 			});
 
