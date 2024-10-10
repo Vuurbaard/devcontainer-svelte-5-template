@@ -1,6 +1,7 @@
 import { OAuth2RequestError } from 'arctic';
-import { discord, lucia } from '$lib/server/auth';
+import { discord } from '$lib/server/auth';
 import type { RequestEvent } from '@sveltejs/kit';
+import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/sessions';
 
 interface DiscordUser {
 	id: string;
@@ -78,12 +79,10 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				});
 			}
 
-			const session = await lucia.createSession(existingUser.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
-			});
+			const token = generateSessionToken();
+			const session = await createSession(token, existingUser.id);
+			setSessionTokenCookie(event, token, session.expiresAt);
+
 		}
 		else {
 			// Create a new user if not found
@@ -95,12 +94,9 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				}
 			});
 
-			const session = await lucia.createSession(newUser.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
-			});
+			const token = generateSessionToken();
+			const session = await createSession(token, newUser.id);
+			setSessionTokenCookie(event, token, session.expiresAt);
 		}
 
 		return new Response(null, {

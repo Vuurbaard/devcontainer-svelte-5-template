@@ -16,6 +16,7 @@
 		"@lucia-auth/adapter-sqlite": "^3.0.0",
 		"@melt-ui/svelte": "^0.83.0",
 		"@neoconfetti/svelte": "^2.2.1",
+		"@oslojs/encoding": "^1.1.0",
 		"@prisma/client": "^5.19.1",
 		"@sveltejs/adapter-auto": "^3.2.4",
 		"@sveltejs/adapter-node": "^5.2.2",
@@ -32,7 +33,6 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.43.0",
 		"globals": "^15.9.0",
-		"lucia": "^3.2.0",
 		"lucide-svelte": "^0.439.0",
 		"oslo": "^1.2.1",
 		"prettier": "^3.3.3",
@@ -50,5 +50,9 @@
 		"vite": "^5.4.3",
 		"zod": "^3.23.8"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@oslojs/crypto": "^1.0.1",
+		"D": "^1.0.0"
+	}
 }

@@ -1,13 +1,13 @@
 import { OAuth2RequestError } from 'arctic';
-import { google, lucia } from '$lib/server/auth';
+import { google } from '$lib/server/auth';
 import type { RequestEvent } from '@sveltejs/kit';
+import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/sessions';
 
 interface GoogleUser {
 	sub: string; // Unique identifier for the user
 	name: string; // Full name of the user
 	email: string; // Email address of the user
 }
-
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');
@@ -40,6 +40,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		});
 
 		if (existingUser) {
+
 			// If user exists but does not have a Google ID, update their record
 			if (!existingUser.googleId) {
 				await prisma.user.update({
@@ -52,13 +53,11 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				});
 			}
 
-			const session = await lucia.createSession(existingUser.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
-			});
-		} else {
+			const token = generateSessionToken();
+			const session = await createSession(token, existingUser.id);
+			setSessionTokenCookie(event, token, session.expiresAt);
+		}
+		else {
 			// Create a new user if not found
 			const newUser = await prisma.user.create({
 				data: {
@@ -68,12 +67,9 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				}
 			});
 
-			const session = await lucia.createSession(newUser.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
-			});
+			const token = generateSessionToken();
+			const session = await createSession(token, newUser.id);
+			setSessionTokenCookie(event, token, session.expiresAt);
 		}
 
 		return new Response(null, {

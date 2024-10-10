@@ -1,4 +1,3 @@
-import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import { verify } from "@node-rs/argon2";
 import { z } from 'zod';
@@ -6,6 +5,7 @@ import { z } from 'zod';
 import type { Actions } from "./$types";
 import { alphabet, generateRandomString } from "oslo/crypto";
 import { createDate, TimeSpan } from "oslo";
+import { createSession, generateSessionToken, setSessionTokenCookie } from "$lib/server/sessions";
 
 // Define a schema for login validation
 const loginSchema = z.object({
@@ -83,14 +83,9 @@ export const actions: Actions = {
 		}
 
 		// Create session for the authenticated user
-		const session = await lucia.createSession(existingUser.id, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
-
-		// Set the session cookie
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: ".",
-			...sessionCookie.attributes
-		});
+		const token = generateSessionToken();
+		const session = await createSession(token, existingUser.id);
+		setSessionTokenCookie(event, token, session.expiresAt);
 
 		// Redirect to the homepage after successful sign-in
 		throw redirect(302, "/");
