@@ -28,9 +28,8 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				Authorization: `Bearer ${tokens.accessToken}`
 			}
 		});
+		
 		const googleUser: GoogleUser = await googleUserResponse.json();
-
-		console.log(googleUser);
 
 		// Check if the user exists by email
 		const existingUser = await prisma.user.findUnique({

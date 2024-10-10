@@ -28,10 +28,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	const state = event.url.searchParams.get('state');
 	const storedState = event.cookies.get('discord_oauth_state') ?? null;
 
-	console.log("code:", code);
-	console.log("state:", state);
-	console.log("storedState:", storedState);
-
 	if (!code || !state || !storedState || state !== storedState) {
 		return new Response(null, {
 			status: 400
@@ -49,8 +45,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		});
 
 		const discordUser = await discordUserResponse.json();
-
-		console.log(discordUser);
 
 		// If email is not available (you must have requested the `email` scope to get this)
 		if (!discordUser.email) {
@@ -82,7 +76,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			const token = generateSessionToken();
 			const session = await createSession(token, existingUser.id);
 			setSessionTokenCookie(event, token, session.expiresAt);
-
 		}
 		else {
 			// Create a new user if not found

@@ -27,8 +27,6 @@ export const actions: Actions = {
 		const username = formData.get("username");
 		const password = formData.get("password");
 
-		console.log("Form Data:", { username, password });
-
 		// Validate the form data using the login schema
 		const parseResult = loginSchema.safeParse({ username, password });
 
@@ -54,7 +52,6 @@ export const actions: Actions = {
 
 		// If the user doesn't exist or invalid username, return error
 		if (!existingUser) {
-			console.log("User not found:", validatedUsername);
 			return fail(400, { message: "Incorrect username or password" });
 		}
 
@@ -68,13 +65,11 @@ export const actions: Actions = {
 
 		// If the password is incorrect, return error
 		if (!validPassword) {
-			console.log("Incorrect password for user:", validatedUsername);
 			return fail(400, { message: "Incorrect username or password" });
 		}
 
 		// If the user's email is not verified, redirect to email verification page
 		if (!existingUser.emailVerified) {
-			console.log("User email not verified:", validatedUsername);
 
 			const newCode = await generateEmailVerificationCode(existingUser.id, existingUser.email);
 			await sendVerificationCodeEmail(existingUser.email, newCode);
