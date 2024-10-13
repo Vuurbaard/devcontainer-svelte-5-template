@@ -37,7 +37,8 @@
 				"GitHub.copilot",
 				"mhutchie.git-graph",
 				"GitHub.copilot-labs",
-				"cweijan.vscode-postgresql-client2"
+				"cweijan.vscode-postgresql-client2",
+				"svelte.svelte-vscode"
 			]
 		}
 	}
