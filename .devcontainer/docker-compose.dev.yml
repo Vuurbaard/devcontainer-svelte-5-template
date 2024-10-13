@@ -9,8 +9,7 @@ services:
 
     working_dir: /app
     volumes:
-      - ../:/app:cached
-
+      - ../:/app
 
 volumes:
   dev-devcontainer-svelte-5-template:
