@@ -10,7 +10,7 @@
 </svelte:head>
 
 <section>
-	<h1>
+	<h1 class="text-center text-4xl">
 		<span class="welcome">
 			<picture>
 				<source srcset={welcome} type="image/webp" />
@@ -18,7 +18,7 @@
 			</picture>
 		</span>
 
-		to your new<br />SvelteKit app
+		to your new SvelteKit app 🎉<br /><br />
 	</h1>
 
 	<h2>
