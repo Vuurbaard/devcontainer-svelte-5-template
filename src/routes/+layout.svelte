@@ -9,7 +9,7 @@
 	import CreditCard from 'lucide-svelte/icons/credit-card';
 	import DollarSign from 'lucide-svelte/icons/dollar-sign';
 	import Menu from 'lucide-svelte/icons/menu';
-	import Package2 from 'lucide-svelte/icons/package-2';
+	import Flame from 'lucide-svelte/icons/flame';
 	import Search from 'lucide-svelte/icons/search';
 	import Users from 'lucide-svelte/icons/users';
 
@@ -29,7 +29,7 @@
 			class="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6"
 		>
 			<a href="##" class="flex items-center gap-2 text-lg font-semibold md:text-base">
-				<Package2 class="h-6 w-6" />
+				<Flame class="h-6 w-6" />
 				<span class="sr-only">Acme Inc</span>
 			</a>
 			<a href="##" class="text-foreground transition-colors hover:text-foreground"> Dashboard </a>
@@ -42,9 +42,7 @@
 			<a href="##" class="text-muted-foreground transition-colors hover:text-foreground">
 				Customers
 			</a>
-			<a href="##" class="text-muted-foreground transition-colors hover:text-foreground">
-				Analytics
-			</a>
+			<a href="##" class="text-muted-foreground transition-colors hover:text-foreground"> Admin </a>
 		</nav>
 		<Sheet.Root>
 			<Sheet.Trigger>
@@ -56,26 +54,26 @@
 			<Sheet.Content side="left">
 				<nav class="grid gap-6 text-lg font-medium">
 					<a href="##" class="flex items-center gap-2 text-lg font-semibold">
-						<Package2 class="h-6 w-6" />
+						<Flame class="h-6 w-6" />
 						<span class="sr-only">Acme Inc</span>
 					</a>
 					<a href="##" class="hover:text-foreground"> Dashboard </a>
 					<a href="##" class="text-muted-foreground hover:text-foreground"> Orders </a>
 					<a href="##" class="text-muted-foreground hover:text-foreground"> Products </a>
 					<a href="##" class="text-muted-foreground hover:text-foreground"> Customers </a>
-					<a href="##" class="text-muted-foreground hover:text-foreground"> Analytics </a>
+					<a href="##" class="text-muted-foreground hover:text-foreground"> Admin </a>
 				</nav>
 			</Sheet.Content>
 		</Sheet.Root>
 		<div class="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
 			<form class="ml-auto flex-1 sm:flex-initial">
 				<div class="relative">
-					<Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+					<!-- <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
 					<Input
 						type="search"
 						placeholder="Search products..."
 						class="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-					/>
+					/> -->
 				</div>
 			</form>
 			<DropdownMenu.Root>

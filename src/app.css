@@ -35,13 +35,16 @@
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
+    /* --background: 20 14.3% 4.1%; */
+    --background: 0 0% 12.9%;
     --foreground: 60 9.1% 97.8%;
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
-    --popover: 20 14.3% 4.1%;
+    /* --popover: 20 14.3% 4.1%; */
+    --popover: 0 0 20%;
     --popover-foreground: 60 9.1% 97.8%;
-    --card: 20 14.3% 4.1%;
+    /* --card: 20 14.3% 4.1%; */
+    --card: 0 0% 15%;
     --card-foreground: 60 9.1% 97.8%;
     --border: 12 6.5% 15.1%;
     --input: 12 6.5% 15.1%;
@@ -72,6 +75,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+html {
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
 
 
