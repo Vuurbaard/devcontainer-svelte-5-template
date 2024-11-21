@@ -40,7 +40,6 @@
 				"svelte.svelte-vscode",
 				"pflannery.vscode-versionlens",
 				"bradlc.vscode-tailwindcss",
-				"stivo.tailwind-fold",
 				"Selemondev.vscode-shadcn-svelte"
 			]
 		}
