@@ -15,16 +15,23 @@
 			<form class="grid gap-4" method="POST">
 				<div class="grid gap-2">
 					<Label for="name">Name</Label>
-					<Input id="name" name="name" placeholder="Sander" required />
+					<Input id="name" name="name" placeholder="Sander" required value="test" />
 				</div>
 
 				<div class="grid gap-2">
 					<Label for="email">Email</Label>
-					<Input id="email" name="email" type="email" placeholder="m@example.com" required />
+					<Input
+						id="email"
+						name="email"
+						type="email"
+						placeholder="m@example.com"
+						required
+						value="test@vuurbaard.com"
+					/>
 				</div>
 				<div class="grid gap-2">
 					<Label for="password">Password</Label>
-					<Input id="password" name="password" type="password" />
+					<Input id="password" name="password" type="password" value="password123" />
 				</div>
 				<Button type="submit" class="mt-6 w-full">Create an account</Button>
 			</form>

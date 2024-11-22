@@ -7,6 +7,10 @@ class ApiService {
 		options: RequestInit
 	): Promise<T> {
 		const url = `${this.baseUrl}/${endpoint}`;
+
+		console.log(`API request: ${options.method} ${url}`, options.body);
+
+
 		const response = await fetch(url, {
 			...options,
 			headers: {
