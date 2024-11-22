@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   devcontainer-svelte-5-template:
     container_name: devcontainer-svelte-5-template
