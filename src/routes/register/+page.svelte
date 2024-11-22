@@ -12,20 +12,22 @@
 	</Card.Header>
 	<Card.Content>
 		<div class="grid gap-4">
-			<div class="grid gap-2">
-				<Label for="name">Name</Label>
-				<Input id="name" placeholder="Sander" required />
-			</div>
+			<form class="grid gap-4" method="POST">
+				<div class="grid gap-2">
+					<Label for="name">Name</Label>
+					<Input id="name" name="name" placeholder="Sander" required />
+				</div>
 
-			<div class="grid gap-2">
-				<Label for="email">Email</Label>
-				<Input id="email" type="email" placeholder="m@example.com" required />
-			</div>
-			<div class="grid gap-2">
-				<Label for="password">Password</Label>
-				<Input id="password" type="password" />
-			</div>
-			<Button type="submit" class="w-full">Create an account</Button>
+				<div class="grid gap-2">
+					<Label for="email">Email</Label>
+					<Input id="email" name="email" type="email" placeholder="m@example.com" required />
+				</div>
+				<div class="grid gap-2">
+					<Label for="password">Password</Label>
+					<Input id="password" name="password" type="password" />
+				</div>
+				<Button type="submit" class="mt-6 w-full">Create an account</Button>
+			</form>
 			<div class="relative my-3">
 				<div class="absolute inset-0 flex items-center">
 					<span class="w-full border-t"></span>

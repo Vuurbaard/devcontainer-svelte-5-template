@@ -21,17 +21,16 @@
 				<Flame class="h-6 w-6" />
 				<span class="sr-only">Acme Inc</span>
 			</a>
-			<a href="##" class="text-foreground transition-colors hover:text-foreground"> Dashboard </a>
-			<a href="##" class="text-muted-foreground transition-colors hover:text-foreground">
-				Orders
+			<a href="/" class="text-foreground transition-colors hover:text-foreground"> Dashboard </a>
+			<a href="/login" class="text-muted-foreground transition-colors hover:text-foreground">
+				Login
 			</a>
-			<a href="##" class="text-muted-foreground transition-colors hover:text-foreground">
-				Products
+			<a href="/register" class="text-muted-foreground transition-colors hover:text-foreground">
+				Sign-up
 			</a>
-			<a href="##" class="text-muted-foreground transition-colors hover:text-foreground">
-				Customers
+			<a href="/admin" class="text-muted-foreground transition-colors hover:text-foreground">
+				Admin
 			</a>
-			<a href="##" class="text-muted-foreground transition-colors hover:text-foreground"> Admin </a>
 		</nav>
 		<Sheet.Root>
 			<Sheet.Trigger>
@@ -54,7 +53,8 @@
 				</nav>
 			</Sheet.Content>
 		</Sheet.Root>
-		<div class="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+		<div class="flex w-full items-center gap-4 md:ml-auto md:w-auto md:gap-2 lg:gap-4">
+			<!-- w-full -->
 			<form class="ml-auto flex-1 sm:flex-initial">
 				<div class="relative">
 					<!-- <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />

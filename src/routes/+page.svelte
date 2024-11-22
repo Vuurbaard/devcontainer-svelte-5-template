@@ -39,6 +39,8 @@
 	<Counter />
 </section> -->
 
+<h2 class="mt-4 text-2xl">Dashboard</h2>
+
 <div class="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
 	<Card.Root>
 		<Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
