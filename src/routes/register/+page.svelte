@@ -3,6 +3,10 @@
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+
+	import { enhance } from '$app/forms';
+	import type { PageData, ActionData } from './$types';
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
 <Card.Root class="mx-auto max-w-sm">
@@ -12,26 +16,51 @@
 	</Card.Header>
 	<Card.Content>
 		<div class="grid gap-4">
-			<form class="grid gap-4" method="POST">
+			{#if form?.success}
+				<p>{form.message}</p>
+			{/if}
+			{#if form?.error}
+				<div class="text-sm text-red-500">{form.error}</div>
+			{/if}
+			<form class="grid gap-4" method="POST" use:enhance>
 				<div class="grid gap-2">
-					<Label for="name">Name</Label>
-					<Input id="name" name="name" placeholder="Sander" required value="test" />
+					<Label for="username">Username</Label>
+					<Input
+						id="username"
+						name="username"
+						placeholder="Vuurbaard"
+						required
+						class={form?.errors?.username ? 'border-red-500' : ''}
+					/>
+					{#if form?.errors?.username}
+						<div class="text-sm text-red-500">{form.errors.username}</div>
+					{/if}
 				</div>
-
 				<div class="grid gap-2">
 					<Label for="email">Email</Label>
 					<Input
 						id="email"
 						name="email"
-						type="email"
-						placeholder="m@example.com"
+						placeholder="vuurbaard@example.com"
 						required
-						value="test@vuurbaard.com"
+						class={form?.errors?.email ? 'border-red-500' : ''}
 					/>
+					{#if form?.errors?.email}
+						<div class="text-sm text-red-500">{form.errors.email}</div>
+					{/if}
 				</div>
 				<div class="grid gap-2">
 					<Label for="password">Password</Label>
-					<Input id="password" name="password" type="password" value="password123" />
+					<Input
+						id="password"
+						name="password"
+						type="password"
+						required
+						class={form?.errors?.password ? 'border-red-500' : ''}
+					/>
+					{#if form?.errors?.password}
+						<div class="text-sm text-red-500">{form.errors.password}</div>
+					{/if}
 				</div>
 				<Button type="submit" class="mt-6 w-full">Create an account</Button>
 			</form>
