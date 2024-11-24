@@ -7,7 +7,7 @@
 	],
 	"workspaceFolder": "/app",
 	"mounts": [
-		"source=${localWorkspaceFolder},target=/${containerWorkspaceFolder},type=bind",
+		"source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind",
 		"source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
 	],
 	"remoteUser": "node",
