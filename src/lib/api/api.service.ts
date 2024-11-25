@@ -1,18 +1,21 @@
+
 class ApiService {
 	private baseUrl = import.meta.env.VITE_API_BASE_URL || '';
 	private defaultHeaders = { 'Content-Type': 'application/json' };
 
-	private async request<T>(endpoint: string, options: RequestInit): Promise<T> {
+	private async request<T>(endpoint: string, options: RequestInit, customFetch: typeof fetch = fetch): Promise<T> {
 		const url = `${this.baseUrl}/${endpoint}`;
 
 		console.log(`API request: ${options.method} ${url}`, options.body);
+		console.log(`credentials:`, options.credentials);
 
-		const response = await fetch(url, {
+		const response = await customFetch(url, {
 			...options,
 			headers: {
 				...this.defaultHeaders,
 				...options.headers,
 			},
+			credentials: 'include'
 		});
 
 		if (!response.ok) {
@@ -20,12 +23,13 @@ class ApiService {
 			throw this.handleError(errorResponse, response.status);
 		}
 
+		console.log(`headers:`, response.headers);
+
+
 		return response.json();
 	}
 
 	private handleError(errorResponse: any, status: number): Error {
-
-		// console.log('Handling error:', errorResponse, status);
 
 		if (errorResponse && errorResponse.message) {
 			if (Array.isArray(errorResponse.message)) {
@@ -59,26 +63,34 @@ class ApiService {
 	}
 
 
-	public async get<T>(endpoint: string): Promise<T> {
-		return this.request<T>(endpoint, { method: 'GET' });
+	public async get<T>(endpoint: string, context?: { fetch?: typeof fetch }): Promise<T> {
+		const customFetch = context?.fetch || fetch;
+
+		return this.request<T>(endpoint, { method: 'GET' }, customFetch);
 	}
 
-	public async post<T>(endpoint: string, body: unknown): Promise<T> {
+	public async post<T>(endpoint: string, body: unknown, context?: { fetch?: typeof fetch }): Promise<T> {
+		const customFetch = context?.fetch || fetch;
+
 		return this.request<T>(endpoint, {
 			method: 'POST',
 			body: JSON.stringify(body),
-		});
+		}, customFetch);
 	}
 
-	public async put<T>(endpoint: string, body: unknown): Promise<T> {
+	public async put<T>(endpoint: string, body: unknown, context?: { fetch?: typeof fetch }): Promise<T> {
+		const customFetch = context?.fetch || fetch;
+
 		return this.request<T>(endpoint, {
 			method: 'PUT',
 			body: JSON.stringify(body),
-		});
+		}, customFetch);
 	}
 
-	public async delete<T>(endpoint: string): Promise<T> {
-		return this.request<T>(endpoint, { method: 'DELETE' });
+	public async delete<T>(endpoint: string, context?: { fetch?: typeof fetch }): Promise<T> {
+		const customFetch = context?.fetch || fetch;
+
+		return this.request<T>(endpoint, { method: 'DELETE' }, customFetch);
 	}
 }
 
