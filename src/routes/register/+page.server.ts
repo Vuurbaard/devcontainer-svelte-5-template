@@ -1,27 +1,31 @@
 import type { Actions } from './$types';
-import api, { ValidationError } from '$lib/api/api.service';
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, fetch }) => {
 
-		const data = await request.formData();
-		const username = data.get('username');
-		const email = data.get('email');
-		const password = data.get('password');
+		const formData = await request.formData();
+		const data = Object.fromEntries(formData.entries());
 
 		try {
-			const result: any = await api.post('auth/register', { username, email, password });
+			const result: any = await fetch('/api/auth/register', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
+
 			console.log(result);
 
 			return { success: true, message: result?.message };
 		}
 		catch (e: any) {
-			if (e instanceof ValidationError) {
-				return {
-					success: false,
-					errors: e.errors,
-				};
-			}
+			// if (e instanceof ValidationError) {
+			// 	return {
+			// 		success: false,
+			// 		errors: e.errors,
+			// 	};
+			// }
 
 			return {
 				success: false,

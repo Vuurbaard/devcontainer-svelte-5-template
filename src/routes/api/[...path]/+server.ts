@@ -1,9 +1,10 @@
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ params, url, request }) => {
+export const GET: RequestHandler = async ({ params, url, request, getClientAddress }) => {
 	try {
 		// Forward headers from client
 		const forwardedHeaders = new Headers(request.headers);
+		forwardedHeaders.set('X-Forwarded-For', getClientAddress());
 
 		const apiResponse = await fetch(
 			`${import.meta.env.VITE_API_BASE_URL}/${params.path}${url.search}`,
@@ -19,7 +20,7 @@ export const GET: RequestHandler = async ({ params, url, request }) => {
 			responseHeaders.append(key, value);
 		});
 
-		return new Response(apiResponse.body, {
+		return new Response(apiResponse.clone().body, {
 			status: apiResponse.status,
 			headers: responseHeaders,
 		});
@@ -30,39 +31,32 @@ export const GET: RequestHandler = async ({ params, url, request }) => {
 	}
 };
 
-export const POST: RequestHandler = async ({ params, request, cookies }) => {
-
-	console.log('POST request:', request);
+export const POST: RequestHandler = async ({ params, request, getClientAddress }) => {
 
 	try {
 
 		const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/${params.path}`
 
+		const method = request.method;
+		const headers = new Headers(request.headers);
+		headers.set('X-Forwarded-For', getClientAddress());
+		const body = await request.text()
+
+		console.log(`${method} headers:`, headers);
+		console.log(`${method} body:`, body);
+
 		const apiResponse = await fetch(apiUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': request.headers.get('Content-Type') || 'application/json',
-			},
-			body: await request.text(),
+			method: method,
+			headers: headers,
+			body: body,
 		});
 
-		console.log('apiResponse:', apiResponse);
+		console.log(`${method} response:`, apiResponse);
 
-		// Return headers and body from the API response
-		const responseHeaders = new Headers();
-		apiResponse.headers.forEach((value, key) => {
-			responseHeaders.append(key, value);
-		});
-
-		let res = new Response(apiResponse.body, {
+		return new Response(apiResponse.body, {
 			status: apiResponse.status,
-			headers: responseHeaders,
+			headers: apiResponse.headers,
 		});
-
-		console.log('res:', res);
-
-
-		return res
 	}
 	catch (error) {
 		console.error('POST error:', error);
