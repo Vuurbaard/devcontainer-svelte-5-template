@@ -1,0 +1,62 @@
+import type { Actions } from './$types';
+
+export const actions = {
+	default: async ({ request, fetch }) => {
+
+		const formData = await request.formData();
+		const data = Object.fromEntries(formData.entries());
+
+		try {
+			const result: any = await fetch('/api/auth/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
+
+			const responseData = await result.json();
+
+			console.log('Login response:', responseData);
+
+			// Parse validation errors
+			if (result.status === 422) {
+				if (Array.isArray(responseData.message)) {
+					const transformedErrors = responseData.message.reduce(
+						(acc: Record<string, { message: string }>, err: any) => {
+							if (err.path?.length) {
+								const field = err.path[0];
+								acc[field] = err.message;
+							}
+							return acc;
+						},
+						{}
+					);
+					return {
+						success: false,
+						// error: 'Validation failed',
+						errors: transformedErrors,
+					}
+				}
+			}
+
+
+			if (result.ok) {
+				return { success: true, message: responseData.message ?? 'Login successful' };
+			}
+
+			return {
+				success: false,
+				error: responseData.message ?? 'Login failed',
+			};
+		}
+		catch (e: any) {
+			console.error(e);
+			return {
+				success: false,
+				error: e.message ?? 'An unexpected error occurred',
+				errors: e.errors ?? {},
+			};
+		}
+	},
+} satisfies Actions;

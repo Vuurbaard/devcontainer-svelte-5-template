@@ -17,10 +17,9 @@
 	<Card.Content>
 		<div class="grid gap-4">
 			{#if form?.success}
-				<p>{form.message}</p>
-			{/if}
-			{#if form?.error}
-				<div class="text-sm text-red-500">{form.error}</div>
+				<div class="text-sm text-green-500">{form?.message}</div>
+			{:else if form?.error}
+				<div class="text-sm text-red-500">{form?.message}</div>
 			{/if}
 			<form class="grid gap-4" method="POST" use:enhance>
 				<div class="grid gap-2">

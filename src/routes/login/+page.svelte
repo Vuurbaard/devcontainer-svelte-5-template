@@ -9,7 +9,7 @@
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
-<Card.Root class="mx-auto max-w-sm">
+<Card.Root class="mx-auto w-full min-w-[50%] sm:max-w-sm">
 	<Card.Header>
 		<Card.Title class="text-2xl">Login</Card.Title>
 		<Card.Description>Enter your email below to login to your account</Card.Description>
@@ -17,11 +17,11 @@
 	<Card.Content>
 		<div class="grid gap-4">
 			{#if form?.success}
-				<p>{form.message}</p>
+				<div class="text-sm text-green-500">{form?.message}</div>
+			{:else if form?.error}
+				<div class="text-sm text-red-500">{form?.message}</div>
 			{/if}
-			{#if form?.error}
-				<div class="text-sm text-red-500">{form.error}</div>
-			{/if}
+
 			<form class="grid gap-4" method="POST" use:enhance>
 				<div class="grid gap-2">
 					<Label for="email">Email</Label>
@@ -47,7 +47,7 @@
 						type="password"
 						name="password"
 						required
-						value="adminpassword"
+						value="adminpasswordwrong"
 						class={form?.errors?.password ? 'border-red-500' : ''}
 					/>
 					{#if form?.errors?.password}
