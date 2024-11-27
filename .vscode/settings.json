@@ -16,7 +16,8 @@
         "README.md": true,
         "components.json": true,
         ".svelte-kit": true,
-        ".vscode": true
+        ".vscode": true,
+        "package-lock.json": true
     },
     "hide-files.files": [
         ".npmrc",
@@ -29,6 +30,7 @@
         "README.md",
         "components.json",
         ".svelte-kit",
-        ".vscode"
+        ".vscode",
+        "package-lock.json"
     ]
 }
