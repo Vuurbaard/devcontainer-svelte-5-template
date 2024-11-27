@@ -1,12 +1,7 @@
 export class Api {
-	/**
-	 * Base path for API requests.
-	 */
+
 	private static readonly API_BASE_PATH = '/api';
 
-	/**
-	 * Utility function to parse a `Request` object into a JSON-compatible body.
-	 */
 	private static async parseRequestBody(body: Record<string, any> | Request): Promise<Record<string, any>> {
 		if (body instanceof Request) {
 			const contentType = body.headers.get('content-type') || '';
@@ -20,19 +15,15 @@ export class Api {
 			}
 		}
 
-		// Return as-is if it's already a plain object
 		return body as Record<string, any>;
 	}
 
-	/**
-	 * General request handler.
-	 */
 	private static async request<T>(
 		url: string,
 		body: Record<string, any> | undefined,
 		customFetch: typeof fetch,
 		method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
-	): Promise<{ success: boolean; data?: T; error?: string; errors?: Record<string, { message: string }>; message?: string }> {
+	): Promise<ApiResponse<T>> {
 		const headers: Record<string, string> = {
 			'Content-Type': 'application/json',
 		};
@@ -77,10 +68,7 @@ export class Api {
 		}
 	}
 
-	/**
-	 * Convenience methods for specific HTTP methods.
-	 */
-	static async get<T>(url: string, customFetch: typeof fetch): Promise<{ success: boolean; data?: T; error?: string; errors?: Record<string, { message: string }>; message?: string }> {
+	static async get<T>(url: string, customFetch: typeof fetch): Promise<ApiResponse<T>> {
 		return this.request<T>(url, undefined, customFetch, 'GET');
 	}
 
@@ -88,7 +76,7 @@ export class Api {
 		url: string,
 		body: Record<string, any> | Request,
 		customFetch: typeof fetch
-	): Promise<{ success: boolean; data?: T; error?: string; errors?: Record<string, { message: string }>; message?: string }> {
+	): Promise<ApiResponse<T>> {
 		const parsedBody = await this.parseRequestBody(body);
 		return this.request<T>(url, parsedBody, customFetch, 'POST');
 	}
@@ -97,7 +85,7 @@ export class Api {
 		url: string,
 		body: Record<string, any> | Request,
 		customFetch: typeof fetch
-	): Promise<{ success: boolean; data?: T; error?: string; errors?: Record<string, { message: string }>; message?: string }> {
+	): Promise<ApiResponse<T>> {
 		const parsedBody = await this.parseRequestBody(body);
 		return this.request<T>(url, parsedBody, customFetch, 'PUT');
 	}
@@ -106,7 +94,7 @@ export class Api {
 		url: string,
 		body: Record<string, any> | Request,
 		customFetch: typeof fetch
-	): Promise<{ success: boolean; data?: T; error?: string; errors?: Record<string, { message: string }>; message?: string }> {
+	): Promise<ApiResponse<T>> {
 		const parsedBody = await this.parseRequestBody(body);
 		return this.request<T>(url, parsedBody, customFetch, 'PATCH');
 	}
@@ -115,8 +103,17 @@ export class Api {
 		url: string,
 		body: Record<string, any> | Request | undefined,
 		customFetch: typeof fetch
-	): Promise<{ success: boolean; data?: T; error?: string; errors?: Record<string, { message: string }>; message?: string }> {
+	): Promise<ApiResponse<T>> {
 		const parsedBody = body ? await this.parseRequestBody(body) : undefined;
 		return this.request<T>(url, parsedBody, customFetch, 'DELETE');
 	}
 }
+
+
+type ApiResponse<T> = {
+	success: boolean;
+	data?: T;
+	error?: string;
+	errors?: Record<string, { message: string }>;
+	message?: string;
+};

@@ -2,7 +2,7 @@ import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params, url, request, getClientAddress }) => {
 	try {
-		// Forward headers from client
+
 		const forwardedHeaders = new Headers(request.headers);
 		forwardedHeaders.set('X-Forwarded-For', getClientAddress());
 
@@ -14,7 +14,6 @@ export const GET: RequestHandler = async ({ params, url, request, getClientAddre
 			}
 		);
 
-		// Return headers and body from the API response
 		const responseHeaders = new Headers();
 		apiResponse.headers.forEach((value, key) => {
 			responseHeaders.append(key, value);
