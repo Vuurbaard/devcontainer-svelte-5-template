@@ -40,7 +40,8 @@
 				"svelte.svelte-vscode",
 				"pflannery.vscode-versionlens",
 				"bradlc.vscode-tailwindcss",
-				"Selemondev.vscode-shadcn-svelte"
+				"Selemondev.vscode-shadcn-svelte",
+				"roonie007.hide-files"
 			]
 		}
 	}

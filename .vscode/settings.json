@@ -1,0 +1,34 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        ".npmrc": true,
+        ".editorconfig": true,
+        ".gitignore": true,
+        "eslint.config.js": true,
+        ".prettierignore": true,
+        ".prettierrc": true,
+        "postcss.config.js": true,
+        "README.md": true,
+        "components.json": true,
+        ".svelte-kit": true,
+        ".vscode": true
+    },
+    "hide-files.files": [
+        ".npmrc",
+        ".editorconfig",
+        ".gitignore",
+        "eslint.config.js",
+        ".prettierignore",
+        ".prettierrc",
+        "postcss.config.js",
+        "README.md",
+        "components.json",
+        ".svelte-kit",
+        ".vscode"
+    ]
+}
