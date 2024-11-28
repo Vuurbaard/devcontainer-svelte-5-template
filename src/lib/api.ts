@@ -29,6 +29,10 @@ export class Api {
 		};
 
 		try {
+
+			// console.log(`${method} request headers:`, headers);
+			// console.log(`${method} request body:`, body);
+
 			const response = await customFetch(`${this.API_BASE_PATH}${url}`, {
 				method,
 				headers,
@@ -36,6 +40,9 @@ export class Api {
 			});
 
 			const responseData = await response.json().catch(() => ({}));
+
+			// console.log(`${method} response headers:`, response.headers);
+			// console.log(`${method} response body:`, responseData);
 
 			if (response.status === 422 && Array.isArray(responseData.message)) {
 				// Parse validation errors
