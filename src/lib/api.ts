@@ -30,9 +30,6 @@ export class Api {
 
 		try {
 
-			// console.log(`${method} request headers:`, headers);
-			// console.log(`${method} request body:`, body);
-
 			const response = await customFetch(`${this.API_BASE_PATH}${url}`, {
 				method,
 				headers,
@@ -40,9 +37,6 @@ export class Api {
 			});
 
 			const responseData = await response.json().catch(() => ({}));
-
-			// console.log(`${method} response headers:`, response.headers);
-			// console.log(`${method} response body:`, responseData);
 
 			if (response.status === 422 && Array.isArray(responseData.message)) {
 				// Parse validation errors
@@ -75,14 +69,14 @@ export class Api {
 		}
 	}
 
-	static async get<T>(url: string, customFetch: typeof fetch): Promise<ApiResponse<T>> {
+	static async get<T>(url: string, customFetch: typeof fetch = fetch): Promise<ApiResponse<T>> {
 		return this.request<T>(url, undefined, customFetch, 'GET');
 	}
 
 	static async post<T>(
 		url: string,
 		body: Record<string, any> | Request,
-		customFetch: typeof fetch
+		customFetch: typeof fetch = fetch
 	): Promise<ApiResponse<T>> {
 		const parsedBody = await this.parseRequestBody(body);
 		return this.request<T>(url, parsedBody, customFetch, 'POST');
@@ -91,7 +85,7 @@ export class Api {
 	static async put<T>(
 		url: string,
 		body: Record<string, any> | Request,
-		customFetch: typeof fetch
+		customFetch: typeof fetch = fetch
 	): Promise<ApiResponse<T>> {
 		const parsedBody = await this.parseRequestBody(body);
 		return this.request<T>(url, parsedBody, customFetch, 'PUT');
@@ -100,7 +94,7 @@ export class Api {
 	static async patch<T>(
 		url: string,
 		body: Record<string, any> | Request,
-		customFetch: typeof fetch
+		customFetch: typeof fetch = fetch
 	): Promise<ApiResponse<T>> {
 		const parsedBody = await this.parseRequestBody(body);
 		return this.request<T>(url, parsedBody, customFetch, 'PATCH');
@@ -109,7 +103,7 @@ export class Api {
 	static async delete<T>(
 		url: string,
 		body: Record<string, any> | Request | undefined,
-		customFetch: typeof fetch
+		customFetch: typeof fetch = fetch
 	): Promise<ApiResponse<T>> {
 		const parsedBody = body ? await this.parseRequestBody(body) : undefined;
 		return this.request<T>(url, parsedBody, customFetch, 'DELETE');

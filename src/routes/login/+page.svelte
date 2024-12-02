@@ -29,7 +29,6 @@
 						id="email"
 						type="email"
 						name="username"
-						required
 						value="admin@vuurbaard.dev"
 						class={form?.errors?.username ? 'border-red-500' : ''}
 					/>
