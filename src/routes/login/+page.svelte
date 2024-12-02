@@ -22,7 +22,6 @@
 				<div class="text-sm text-green-500">{form?.message}</div>
 			{:else if form?.error}
 				<div class="text-sm text-red-500">{form?.error}</div>
-				<pre>{JSON.stringify(form)}</pre>
 			{/if}
 
 			<form class="grid gap-4" method="POST" use:enhance>
