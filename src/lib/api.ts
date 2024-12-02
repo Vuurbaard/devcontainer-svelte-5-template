@@ -38,20 +38,9 @@ export class Api {
 
 			const responseData = await response.json().catch(() => ({}));
 
-			if (response.status === 422 && Array.isArray(responseData.message)) {
-				// Parse validation errors
-				const errors = responseData.message.reduce(
-					(acc: Record<string, { message: string }>, err: any) => {
-						if (err.path?.length) {
-							const field = err.path[0];
-							acc[field] = err.message;
-						}
-						return acc;
-					},
-					{}
-				);
 
-				return { success: false, error: 'Validation failed', errors };
+			if (response.status === 422) { // Validation errors
+				return { success: false, error: responseData.message, errors: responseData.errors };
 			}
 
 			if (!response.ok) {
