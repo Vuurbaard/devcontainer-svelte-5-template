@@ -17,9 +17,9 @@ export const load: PageServerLoad = async ({ fetch }) => {
 
 
 export const actions = {
-	default: async ({ request, fetch, cookies }) => {
+	default: async ({ request, fetch }) => {
 
-		const result = await Api.post<any>('/auth/login', request, fetch);
+		const result = await Api.post('/auth/login', request, fetch);
 
 		if (result.success) {
 			throw redirect(302, '/dashboard');
