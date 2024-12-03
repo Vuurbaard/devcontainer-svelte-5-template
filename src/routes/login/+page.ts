@@ -1,6 +1,7 @@
+import type { PageLoad } from './$types';
 import { Api } from '$lib/api.js';
 
-export async function load({ params, fetch }) {
+export const load: PageLoad = async ({ data, fetch }) => {
 
 	// const lang = 'en';
 	const lang = 'nl';

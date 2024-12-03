@@ -47,7 +47,7 @@
 						type="password"
 						name="password"
 						required
-						value="adminpasswordwrong"
+						value="adminpassword"
 						class={form?.errors?.password ? 'border-red-500' : ''} />
 					{#if form?.errors?.password}
 						<div class="text-sm text-red-500">{form.errors.password}</div>
