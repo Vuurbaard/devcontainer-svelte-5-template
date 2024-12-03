@@ -1,11 +1,12 @@
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 import { Api } from '$lib/api.js';
 
-export const load: PageLoad = async ({ data, fetch }) => {
+export const load: PageServerLoad = async ({ locals, fetch }) => {
+
 	const lang = 'nl';
 	const category = 'dashboard';
-	const placeholders = { name: 'Sander' };
 
+	const placeholders = { name: locals.user?.username };
 	const placeholdersQuery = encodeURIComponent(JSON.stringify(placeholders));
 
 	const response = await Api.get<Record<string, string>>(`/translation?lang=${lang}&category=${category}&placeholders=${placeholdersQuery}`, fetch);
