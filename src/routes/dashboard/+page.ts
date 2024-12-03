@@ -2,9 +2,8 @@ import { Api } from '$lib/api.js';
 
 export async function load({ params, fetch }) {
 
-	// const lang = 'en';
 	const lang = 'nl';
-	const category = 'loginpage';
+	const category = 'dashboard';
 
 	const response = await Api.get<Record<string, string>>(`/translation?lang=${lang}&category=${category}`, fetch);
 	const translations = response.data || {};

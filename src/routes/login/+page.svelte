@@ -1,20 +1,18 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 
-	import { enhance } from '$app/forms';
-	import type { PageData, ActionData } from './$types';
-	let { data, form }: { data: PageData; form: ActionData } = $props();
-
-	console.log({ form });
+	let { data, form } = $props();
+	let { t } = data;
 </script>
 
 <Card.Root class="mx-auto w-full min-w-[50%] sm:max-w-sm">
 	<Card.Header>
 		<Card.Title class="text-2xl">Login</Card.Title>
-		<Card.Description>Enter your email below to login to your account</Card.Description>
+		<Card.Description>{t['loginpage.welcome'] ?? 'Enter your email below to login to your account'}</Card.Description>
 	</Card.Header>
 	<Card.Content>
 		<div class="grid gap-4">
@@ -32,16 +30,17 @@
 						type="email"
 						name="username"
 						value="admin@vuurbaard.dev"
-						class={form?.errors?.username ? 'border-red-500' : ''}
-					/>
+						class={form?.errors?.username ? 'border-red-500' : ''} />
 					{#if form?.errors?.username}
 						<div class="text-sm text-red-500">{form.errors.username}</div>
 					{/if}
 				</div>
 				<div class="grid gap-2">
 					<div class="flex items-center">
-						<Label for="password">Password</Label>
-						<a href="##" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
+						<Label for="password">{t['loginpage.password'] ?? 'Password'}</Label>
+						<a href="##" class="ml-auto inline-block text-sm underline">
+							{t['loginpage.forgot-password'] ?? 'Forgot your password?'}
+						</a>
 					</div>
 					<Input
 						id="password"
@@ -49,8 +48,7 @@
 						name="password"
 						required
 						value="adminpasswordwrong"
-						class={form?.errors?.password ? 'border-red-500' : ''}
-					/>
+						class={form?.errors?.password ? 'border-red-500' : ''} />
 					{#if form?.errors?.password}
 						<div class="text-sm text-red-500">{form.errors.password}</div>
 					{/if}
