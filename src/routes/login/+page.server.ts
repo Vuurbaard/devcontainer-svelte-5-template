@@ -22,14 +22,6 @@ export const actions = {
 		const result = await Api.post<any>('/auth/login', request, fetch);
 
 		if (result.success) {
-
-			// Set temporary cookie with user data
-			cookies.set('user', JSON.stringify(result.data?.user), {
-				httpOnly: true,
-				path: '/',
-				maxAge: 60 * 60,
-			});
-
 			throw redirect(302, '/dashboard');
 		}
 
