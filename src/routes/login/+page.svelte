@@ -12,7 +12,7 @@
 <Card.Root class="mx-auto w-full min-w-[50%] sm:max-w-sm">
 	<Card.Header>
 		<Card.Title class="text-2xl">Login</Card.Title>
-		<Card.Description>{t['loginpage.welcome'] ?? 'Enter your email below to login to your account'}</Card.Description>
+		<Card.Description>{t['login.welcome'] ?? 'Enter your email below to login to your account'}</Card.Description>
 	</Card.Header>
 	<Card.Content>
 		<div class="grid gap-4">
@@ -37,9 +37,9 @@
 				</div>
 				<div class="grid gap-2">
 					<div class="flex items-center">
-						<Label for="password">{t['loginpage.password'] ?? 'Password'}</Label>
+						<Label for="password">{t['login.password'] ?? 'Password'}</Label>
 						<a href="##" class="ml-auto inline-block text-sm underline">
-							{t['loginpage.forgot-password'] ?? 'Forgot your password?'}
+							{t['login.forgot-password'] ?? 'Forgot your password?'}
 						</a>
 					</div>
 					<Input
