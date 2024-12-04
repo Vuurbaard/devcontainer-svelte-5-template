@@ -3,7 +3,7 @@ import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ locals, url, fetch }) => {
 
-	console.log('user locale:', locals.user?.locale);
+	// console.log('user locale:', locals.user?.locale);
 
 	const lang = locals.user?.locale ?? 'en';
 	const category = url.pathname.slice(1).replace(/\//g, '.'); // Convert pathname like /user/profile to user.profile
