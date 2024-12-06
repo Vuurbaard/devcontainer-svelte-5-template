@@ -3,4 +3,4 @@
 	let { t } = data;
 </script>
 
-<h1>{t['dashboard.welcome'] ?? 'Welcome, {{username}}'}</h1>
+<h1>{t['welcome'] ?? 'Welcome, {{username}}'}</h1>
