@@ -21,6 +21,9 @@ export const actions = {
 
 		const result = await Api.post('/auth/login', request, fetch);
 
+		console.log('login result:', result);
+
+
 		if (result.success) {
 			throw redirect(302, '/dashboard');
 		}

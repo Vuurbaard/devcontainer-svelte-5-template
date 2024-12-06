@@ -38,10 +38,11 @@ export class Api {
 
 			const responseData = await response.json().catch(() => ({}));
 
+			// console.log(`API request: ${response.status} ${method} ${url}`, responseData);
 
-			if (response.status === 422) { // Validation errors
-				return { success: false, error: responseData.message, errors: responseData.errors };
-			}
+			// if (response.status === 422) { // Validation errors
+			// 	return { success: false, error: responseData.message, errors: responseData.errors };
+			// }
 
 			if (!response.ok) {
 				return { success: false, error: responseData.message || 'API request failed' };

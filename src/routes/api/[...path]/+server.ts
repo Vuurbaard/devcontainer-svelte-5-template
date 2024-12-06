@@ -41,8 +41,8 @@ export const POST: RequestHandler = async ({ params, request, getClientAddress }
 		headers.set('X-Forwarded-For', getClientAddress());
 		const body = await request.text()
 
-		console.log(`${method} /api/${params.path} request: headers:`, headers);
-		console.log(`${method} /api/${params.path} request: body:`, body);
+		// console.log(`${method} /api/${params.path} request: headers:`, headers);
+		// console.log(`${method} /api/${params.path} request: body:`, body);
 
 		const apiResponse = await fetch(apiUrl, {
 			method: method,
@@ -50,8 +50,8 @@ export const POST: RequestHandler = async ({ params, request, getClientAddress }
 			body: body,
 		});
 
-		console.log(`${method} /api/${params.path} response: headers:`, apiResponse.headers);
-		console.log(`${method} /api/${params.path} response: body:`, await apiResponse.clone().json());
+		// console.log(`${method} /api/${params.path} response: headers:`, apiResponse.headers);
+		// console.log(`${method} /api/${params.path} response: body:`, await apiResponse.clone().json());
 
 		return new Response(apiResponse.body, {
 			status: apiResponse.status,
