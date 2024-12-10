@@ -30,9 +30,9 @@
 						type="email"
 						name="username"
 						value="admin@vuurbaard.dev"
-						class={form?.errors?.username ? 'border-red-500' : ''} />
-					{#if form?.errors?.username}
-						<div class="text-sm text-red-500">{form.errors.username}</div>
+						class={form?.validationErrors?.username ? 'border-red-500' : ''} />
+					{#if form?.validationErrors?.username}
+						<div class="text-sm text-red-500">{form.validationErrors.username}</div>
 					{/if}
 				</div>
 				<div class="grid gap-2">
@@ -47,10 +47,10 @@
 						type="password"
 						name="password"
 						required
-						value="adminpa"
-						class={form?.errors?.password ? 'border-red-500' : ''} />
-					{#if form?.errors?.password}
-						<div class="text-sm text-red-500">{form.errors.password}</div>
+						value="adm"
+						class={form?.validationErrors?.password ? 'border-red-500' : ''} />
+					{#if form?.validationErrors?.password}
+						<div class="text-sm text-red-500">{form.validationErrors.password}</div>
 					{/if}
 				</div>
 				<Button type="submit" class="w-full">{t['login'] ?? 'Login'}</Button>

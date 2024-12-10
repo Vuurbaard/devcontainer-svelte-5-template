@@ -29,7 +29,6 @@ export class Api {
 		};
 
 		try {
-
 			const response = await customFetch(`${this.API_BASE_PATH}${url}`, {
 				method,
 				headers,
@@ -38,26 +37,38 @@ export class Api {
 
 			const responseData = await response.json().catch(() => ({}));
 
-			// console.log(`API request: ${response.status} ${method} ${url}`, responseData);
-
-			// if (response.status === 422) { // Validation errors
-			// 	return { success: false, error: responseData.message, errors: responseData.errors };
-			// }
-
-			if (!response.ok) {
-				return { success: false, error: responseData.message || 'API request failed' };
+			// Handle validation errors explicitly
+			if (response.status === 422 && responseData.validationErrors) {
+				return {
+					success: false,
+					validationErrors: responseData.validationErrors, // Add validation errors
+					message: responseData.message || 'Validation errors occurred',
+				};
 			}
 
-			return { success: true, data: responseData, message: responseData.message ?? 'Request successful' };
-		}
-		catch (error: any) {
+			// Handle general errors
+			if (!response.ok) {
+				return {
+					success: false,
+					error: responseData.error || responseData.message || 'API request failed',
+				};
+			}
+
+			// Successful response
+			return {
+				success: true,
+				data: responseData,
+				message: responseData.message ?? 'Request successful',
+			};
+		} catch (error: any) {
 			console.error(`Error in API request: ${method} ${url}`, error);
 			return {
 				success: false,
-				message: error.message || 'An unexpected error occurred',
+				error: error.message || 'An unexpected error occurred',
 			};
 		}
 	}
+
 
 	static async get<T>(url: string, customFetch: typeof fetch = fetch): Promise<ApiResponse<T>> {
 		return this.request<T>(url, undefined, customFetch, 'GET');
@@ -105,6 +116,6 @@ type ApiResponse<T> = {
 	success: boolean;
 	data?: T;
 	error?: string;
-	errors?: Record<string, { message: string }>;
+	validationErrors?: Record<string, { message: string }>;
 	message?: string;
 };
