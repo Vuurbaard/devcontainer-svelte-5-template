@@ -1,5 +1,7 @@
 import type { RequestHandler } from './$types';
 
+// https://svelte.dev/docs/kit/faq#How-do-I-use-X-with-SvelteKit-How-do-I-use-a-different-backend-API-server
+
 export const GET: RequestHandler = async ({ params, url, request, getClientAddress }) => {
 	try {
 
